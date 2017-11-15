@@ -1,11 +1,14 @@
 package com.example.simonpintado.recyclervcard;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -21,6 +24,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private int layout;
     private OnItemClickListener itemClickListener;
 
+    private Context context;
+
     public MyAdapter(List<Movie>movies, int layout,OnItemClickListener listener){
         this.movies=movies;
         this.layout=layout;
@@ -31,6 +36,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //Inflado de vista y es pasada por el constructor del viewHolder
         View v= LayoutInflater.from(parent.getContext()).inflate(layout,parent,false);
+        context=parent.getContext();
         ViewHolder vh=new ViewHolder(v);
         return vh;
     }
@@ -46,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return movies.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public  class ViewHolder extends RecyclerView.ViewHolder{
         public TextView textViewName;
         public ImageView imageViewPoster;
 
@@ -60,7 +66,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public void bind(final Movie movie, final OnItemClickListener listener ) { //se pasa el modelo
             //Porcesamos los datos a renderizar
             textViewName.setText(movie.getName());
-            imageViewPoster.setImageResource(movie.getPoster());
+            Picasso.with(context).load(movie.getPoster()).fit().into(imageViewPoster);
+            //imageViewPoster.setImageResource(movie.getPoster());
             // Definimos que por cada elemento de nuestro recycler view, tenemos un clic listener
             // que se comporta de la siguiente manera.
             itemView.setOnClickListener(new View.OnClickListener() {
