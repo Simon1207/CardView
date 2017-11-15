@@ -16,7 +16,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<String> names;
+    private List<Movie> movies;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -30,26 +30,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        names=this.getAllNames();
+        movies=this.getAllMovies();
         mRecyclerView=(RecyclerView) findViewById(R.id.my_recycler_view);
 
-        //Agrega un nuevo gridLayoutManager con un limite de 2 columnas
-        mLayoutManager=new LinearLayoutManager(this);
-        mLayoutManager=new GridLayoutManager(this,2);
-        mLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
 
-       // mLayoutManager=new LinearLayoutManager(this);
-        mAdapter=new MyAdapter(names, R.layout.recycler_view_item, new MyAdapter.OnItemClickListener() {
+        mLayoutManager=new LinearLayoutManager(this);
+        //Agrega un nuevo gridLayoutManager con un limite de 2 columnas
+       // mLayoutManager=new GridLayoutManager(this,2);
+       // mLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+
+        //Implemntatamos nuestro OnItemClickListener propio, sobreescribiendo el metodo que nosotros
+        //definimos en el adaptador y recibiendo los parametros que necesitamos
+        mAdapter=new MyAdapter(movies, R.layout.recycler_view_item, new MyAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(String name, int position) {
-                //Toast.makeText(MainActivity.this,name+" - "+position, Toast.LENGTH_SHORT).show();
-                deleteName(position);
+            public void onItemClick(Movie movie, int position) {
+
             }
         });
-
-        //mRecyclerView.setHasFixedSize(true);
+        
+                // Lo usamos en caso de que sepamos que el layout no va acabmiar de tamaño, mejorando el performance
+                mRecyclerView.setHasFixedSize(true);
+        // Aña un efecto por defecto, si le pasamos null lo desactivamos por completo
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        // Enlazamos el layout manager y adaptador directamente al recycler view
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -64,28 +68,26 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.add_name:
-                this.addName(0);
+              //  this.addName(0);
                 return true;
             default:
                 return  super.onOptionsItemSelected(item);
         }
 
-
-
     }
 
 
 
 
-    private List<String> getAllNames(){
-        return  new ArrayList<String>(){{
-            add("Simon");
-            add("Alex");
-            add("Mayra");
-            add("Luis");
+    private List<Movie> getAllMovies(){
+        return  new ArrayList<Movie>(){{
+            add(new Movie("Dr. Strange",R.drawable.drstrange));
+            add(new Movie("Justice Leage",R.drawable.justice));
+            add(new Movie("Wolverine",R.drawable.wolf));
+            add(new Movie("Wonder Woman",R.drawable.wonder));
         }};
     }
-
+/*
     private void addName(int position) {
         names.add(position,"new Name"+(++counter));
         mAdapter.notifyItemInserted(position);
@@ -98,4 +100,5 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.notifyItemRemoved(position);
 
     }
+*/
 }
