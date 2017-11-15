@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        
+
                 // Lo usamos en caso de que sepamos que el layout no va acabmiar de tamaño, mejorando el performance
                 mRecyclerView.setHasFixedSize(true);
         // Aña un efecto por defecto, si le pasamos null lo desactivamos por completo

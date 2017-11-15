@@ -47,16 +47,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView TextViewName;
+        public TextView textViewName;
         public ImageView imageViewPoster;
 
         public ViewHolder(View itemView){
             super(itemView);
+            textViewName=(TextView)itemView.findViewById(R.id.textViewTitle);
+            imageViewPoster=(ImageView)itemView.findViewById(R.id.imageViewPoster);
 
         }
 
         public void bind(final Movie movie, final OnItemClickListener listener ) { //se pasa el modelo
-
+            //Porcesamos los datos a renderizar
+            textViewName.setText(movie.getName());
+            imageViewPoster.setImageResource(movie.getPoster());
+            // Definimos que por cada elemento de nuestro recycler view, tenemos un clic listener
+            // que se comporta de la siguiente manera.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
